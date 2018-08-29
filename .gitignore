@@ -1,0 +1,5 @@
+vendor/*
+Problem
+Corpus.CSV.XLSX
+conf.yaml
+log/error.log
