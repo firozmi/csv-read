@@ -21,9 +21,16 @@ func main() {
 	errlog = errlog.With("app", conf.App)
 
 	statusHandle := handler.NewServerStatus(*conf, errlog)
+	homeHandle := handler.NewHomeHandle(*conf, errlog)
+	searchHandle := handler.NewSearchHandle(*conf, errlog)
 
 	mux := goji.NewMux()
 	mux.HandleFunc(pat.Get("/api/status"), statusHandle.GetServerStatus)
+
+	mux.HandleFunc(pat.Get("/"), homeHandle.GetHome)
+	mux.HandleFunc(pat.Post("/upload"), homeHandle.Upload)
+
+	mux.HandleFunc(pat.Get("/api/:key"), searchHandle.SearchKey)
 
 	http.ListenAndServe(conf.Port, mux)
 }

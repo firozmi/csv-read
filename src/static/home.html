@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload CSV</title>
+</head>
+<body>
+    <h1>Upload CSV</h1>
+
+    <div>
+        <form enctype="multipart/form-data" action="/upload" method="post">
+            <div style="margin-bottom:10px">
+                <input type="file" name="uploadfile" />
+            </div>
+            <input type="hidden" name="token" value="{{.}}"/>
+            <div>
+                <input type="submit" value="upload" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>
