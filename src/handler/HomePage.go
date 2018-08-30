@@ -59,12 +59,16 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 
 	//load csv to go level db
 	h.loadCsvData("./uploads/" + handler.Filename)
+	if err != nil {
+		h.log.Error("loadCsvData", err.Error())
+		return
+	}
 
 	fmt.Fprintf(w, "Api active now: http://localhost"+h.conf.Port+"/api/key")
 	return
 }
 
-func (h Home) loadCsvData(fiName string) {
+func (h Home) loadCsvData(fiName string) error {
 	xlFile, err := xlsx.OpenFile(fiName)
 	if err != nil {
 		return err
@@ -83,4 +87,5 @@ func (h Home) loadCsvData(fiName string) {
 			}
 		}
 	}
+	return nil
 }
