@@ -12,6 +12,8 @@ ADD Gopkg.lock Gopkg.lock
 RUN dep ensure --vendor-only
 # add source code
 RUN mkdir log
+RUN mkdir db
+RUN mkdir uploads
 ADD src src
 # run main.go
 CMD ["go", "run", "src/main.go"]
