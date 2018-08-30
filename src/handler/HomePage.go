@@ -9,6 +9,7 @@ import (
 
 	"bitbucket.org/firozmi/csv-read/src/conf"
 	"github.com/hifx/bingo/infra/log"
+	"github.com/tealeg/xlsx"
 )
 
 //Home
@@ -54,5 +55,27 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 	defer f.Close()
 	io.Copy(f, file)
 
+	//load csv to go level db
+	err = loadCsvData("./uploads/" + handler.Filename)
+
+	if err != nil {
+		h.log.Error("error", err.Error())
+		return
+	}
+
 	return
+}
+
+func loadCsvData(fiName string) error {
+	xlFile, err := xlsx.OpenFile(fiName)
+	if err != nil {
+		return err
+	}
+
+	sheet := xlFile.Sheets[0]
+	for _, row := range sheet.Rows {
+		key := row.Cells[0].String()
+		val := row.Cells[1].String()
+
+	}
 }
