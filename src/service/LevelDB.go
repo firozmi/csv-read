@@ -31,6 +31,16 @@ func (ds DBService) SaveKeyValue(key, val string) error {
 	return err
 }
 
+func (ds DBService) GetKeyValue(key string) (val string, err error) {
+	value, err := ds.dbw.Get([]byte(key), nil)
+	if err != nil {
+		return "", err
+	}
+	val = string(value)
+	fmt.Println("value is " + val)
+	return val, err
+}
+
 func (ds DBService) Printall() {
 	fmt.Println("leveldb", "Printing all")
 	iter := ds.dbw.NewIterator(nil, nil)
@@ -42,4 +52,9 @@ func (ds DBService) Printall() {
 		fmt.Printf("\n key = %s, val = %s", key, value)
 	}
 	iter.Release()
+
+	key := "100"
+	value, _ := ds.dbw.Get([]byte(key), nil)
+	val := string(value)
+	fmt.Println("value of key 100 is " + val)
 }

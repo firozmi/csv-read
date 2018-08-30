@@ -32,7 +32,7 @@ func main() {
 
 	statusHandle := handler.NewServerStatus(*conf, errlog)
 	homeHandle := handler.NewHomeHandle(*conf, errlog, dbService)
-	searchHandle := handler.NewSearchHandle(*conf, errlog)
+	searchHandle := handler.NewSearchHandle(*conf, errlog, dbService)
 
 	mux := goji.NewMux()
 	mux.HandleFunc(pat.Get("/api/status"), statusHandle.GetServerStatus)
