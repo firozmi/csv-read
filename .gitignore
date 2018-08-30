@@ -1,5 +1,6 @@
 vendor/*
 Problem
-Corpus.CSV.XLSX
+uploads/*
 conf.yaml
 log/error.log
+db/*

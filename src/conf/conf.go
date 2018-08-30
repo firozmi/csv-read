@@ -2,6 +2,7 @@ package conf
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/viper"
 )
@@ -12,7 +13,10 @@ type Vars struct {
 	Log struct {
 		Error string
 	}
-	Port string
+	Port    string
+	LevelDB struct {
+		Path string
+	}
 }
 
 //Read reads all the environment variables using the envconfig package
@@ -25,9 +29,11 @@ func Read(name string) *Vars {
 	v.AddConfigPath("./src/conf")
 	if err := v.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)
+		os.Exit(1)
 	}
 	if err := v.Unmarshal(&vars); err != nil {
 		log.Fatalf("Error unmarshalling config file, %s", err)
+		os.Exit(1)
 	}
 
 	return vars

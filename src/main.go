@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	"bitbucket.org/firozmi/csv-read/src/conf"
 	"bitbucket.org/firozmi/csv-read/src/handler"
+	"bitbucket.org/firozmi/csv-read/src/service"
 	"github.com/hifx/bingo/infra/log"
 	goji "goji.io"
 	"goji.io/pat"
@@ -20,8 +23,15 @@ func main() {
 	errlog = log.NewLogfmtLogger(conf.Log.Error)
 	errlog = errlog.With("app", conf.App)
 
+	dbService, err := service.NewDBService(*conf, errlog)
+	if err != nil {
+		fmt.Println("Can't connect to the Mysql server" + err.Error())
+		errlog.Error("Can't connect to the Mysql server" + err.Error())
+		os.Exit(1)
+	}
+
 	statusHandle := handler.NewServerStatus(*conf, errlog)
-	homeHandle := handler.NewHomeHandle(*conf, errlog)
+	homeHandle := handler.NewHomeHandle(*conf, errlog, dbService)
 	searchHandle := handler.NewSearchHandle(*conf, errlog)
 
 	mux := goji.NewMux()
