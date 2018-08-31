@@ -2,7 +2,7 @@ FROM golang:1.10
 # install dep
 RUN go get github.com/golang/dep/cmd/dep
 # create a working directory
-WORKDIR /go/src/app
+WORKDIR /go/src/bitbucket.org/firozmi/csv-read
 # add Gopkg.toml and Gopkg.lock
 ADD Gopkg.toml Gopkg.toml
 ADD Gopkg.lock Gopkg.lock

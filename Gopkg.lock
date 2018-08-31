@@ -35,6 +35,12 @@
   version = "v1.8.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/golang/snappy"
+  packages = ["."]
+  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
+
+[[projects]]
   name = "github.com/hashicorp/hcl"
   packages = [
     ".",
@@ -115,6 +121,31 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/syndtr/goleveldb"
+  packages = [
+    "leveldb",
+    "leveldb/cache",
+    "leveldb/comparer",
+    "leveldb/errors",
+    "leveldb/filter",
+    "leveldb/iterator",
+    "leveldb/journal",
+    "leveldb/memdb",
+    "leveldb/opt",
+    "leveldb/storage",
+    "leveldb/table",
+    "leveldb/util"
+  ]
+  revision = "ae2bd5eed72d46b28834ec3f60db3a3ebedd8dbd"
+
+[[projects]]
+  name = "github.com/tealeg/xlsx"
+  packages = ["."]
+  revision = "8be35264fa75a1bbe954ce51eba04f273e2c59e5"
+  version = "v1.0.3"
+
+[[projects]]
   name = "goji.io"
   packages = [
     ".",
@@ -159,6 +190,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "63e1590150d67830e5e97e0bdb468c65e35a48225e56d4c0bf1dcd4f1a02b1c6"
+  inputs-digest = "8e6778c56737654b4a4bad938fec9382e0c344744b3ccbcf4ca8130c86ce0a13"
   solver-name = "gps-cdcl"
   solver-version = 1
