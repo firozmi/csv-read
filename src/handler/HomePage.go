@@ -49,7 +49,6 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer file.Close()
-	fmt.Fprintf(w, "%v", handler.Header)
 	f, err := os.OpenFile("./uploads/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		h.log.Error("error", err.Error())
@@ -74,7 +73,7 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "Api active now: http://localhost"+h.conf.Port+"/api/key")
-	h.dbService.Printall()
+
 	return
 }
 

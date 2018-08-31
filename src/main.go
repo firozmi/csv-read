@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
@@ -25,8 +24,7 @@ func main() {
 
 	dbService, err := service.NewDBService(*conf, errlog)
 	if err != nil {
-		fmt.Println("Can't connect to the Mysql server" + err.Error())
-		errlog.Error("Can't connect to the Mysql server" + err.Error())
+		errlog.Error("leveldb" + err.Error())
 		os.Exit(1)
 	}
 

@@ -52,9 +52,4 @@ func (ds DBService) Printall() {
 		fmt.Printf("\n key = %s, val = %s", key, value)
 	}
 	iter.Release()
-
-	key := "100"
-	value, _ := ds.dbw.Get([]byte(key), nil)
-	val := string(value)
-	fmt.Println("value of key 100 is " + val)
 }
