@@ -1,14 +1,16 @@
-
+include .env
 
 start:
+	mkdir ${LOG_FILE} && touch ${LOG_FILE}/error.log
 	docker build -t go-csv-read .
-	docker run -d -p 8111:8111 --name go-csv-read -v ~/log/csv-read:/go/src/app/log/ go-csv-read
-	@echo 'Visit http://localhost:8111'
+	docker run -d -p ${PORT}:8111 --name go-csv-read -v ${LOG_FILE}:/go/src/app/log/ go-csv-read
+	@echo 'Visit http://localhost:${PORT}'
 
 clean:
 	docker stop go-csv-read
 	docker rm go-csv-read
-	docker rmi go-csv-read
+	# docker rmi go-csv-read
+	rm -r ${LOG_FILE}
 
 ## All targets should have a ## Help text above the target and they'll be automatically collected
 ## Show help, using auto generator from https://gist.github.com/prwhite/8168133

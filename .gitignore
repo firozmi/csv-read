@@ -1,6 +1,5 @@
 vendor/*
 Problem
 uploads/*
-conf.yaml
 log/error.log
 db/*
