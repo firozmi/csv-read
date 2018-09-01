@@ -7,10 +7,13 @@ start:
 	@echo 'Visit http://localhost:${PORT}'
 
 clean:
-	docker stop go-csv-read
-	docker rm go-csv-read
-	# docker rmi go-csv-read
-	rm -r ${LOG_FILE}
+	-docker stop go-csv-read
+	-docker rm go-csv-read
+	-docker rmi go-csv-read
+	-rm -r ${LOG_FILE}
+
+test:
+	go test bitbucket.org/firozmi/csv-read/src/handler
 
 ## All targets should have a ## Help text above the target and they'll be automatically collected
 ## Show help, using auto generator from https://gist.github.com/prwhite/8168133

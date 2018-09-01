@@ -1,7 +1,25 @@
-    dep init
-    docker build -t go-csv-read .
+## CSV READ
 
-    docker run --rm -it -p 8111:8111 -v <log-location>:/go/src/app/log/ go-csv-read
+    Supports loading csv and xls files.
+    # csv files use standard library "encoding/csv"
+    # xls files use "github.com/tealeg/xlsx"
 
-    Example:
-    docker run --rm -it -p 8111:8111 -v ~/log/csv-read:/go/src/app/log/ go-csv-read
+    GoLevelDB is used as database.
+    # github.com/syndtr/goleveldb
+
+    Testify is used for testing.
+    # github.com/stretchr/testify
+
+    Docker single stage production build is used.
+
+    Default configuration can be changed in 
+    # .env
+    # src/conf/conf.yaml
+
+### Running
+    make
+### Clean
+    make clean
+
+### Testing
+    make test
