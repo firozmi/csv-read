@@ -53,8 +53,8 @@ func (s Search) SearchKey(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	} else {
 		resp := &Resp{
-			Key: key,
-			Val: val,
+			Key: val,
+			Val: key,
 		}
 		body, err = json.Marshal(resp)
 		if err != nil {
