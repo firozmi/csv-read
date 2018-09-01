@@ -1,0 +1,50 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Csv-read",
+		"_postman_id": "c88e6971-6ce7-1926-e0e0-cc7e1f7048a7",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Api call",
+			"request": {
+				"url": "http://localhost:8111/api/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Csv upload",
+			"request": {
+				"url": "http://localhost:8111/upload",
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uploadfile",
+							"description": "",
+							"type": "file",
+							"src": "Corpus.CSV.XLSX"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

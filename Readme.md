@@ -23,3 +23,6 @@
 
 ### Testing
     make test
+
+### Postman collection
+    Can be found in file: Csv-read.postman_collection.json
