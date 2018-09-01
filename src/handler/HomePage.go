@@ -74,15 +74,25 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 
 	if handler.Header["Content-Type"][0] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
 		//load csv to go level db
-		h.loadXlsData("./uploads/" + handler.Filename)
+		keyval, err := getXlsData("./uploads/" + handler.Filename)
 		if err != nil {
-			h.log.Error("loadXlsData", err.Error())
+			h.log.Error("Upload", err.Error())
+			return
+		}
+		err = saveCsvData(h.dbService, keyval)
+		if err != nil {
+			h.log.Error("Upload", err.Error())
 			return
 		}
 	} else if handler.Header["Content-Type"][0] == "text/csv" {
-		h.loadCsvData("./uploads/" + handler.Filename)
+		keyval, err := getCsvData("./uploads/" + handler.Filename)
 		if err != nil {
-			h.log.Error("loadCsvData", err.Error())
+			h.log.Error("Upload", err.Error())
+			return
+		}
+		err = saveCsvData(h.dbService, keyval)
+		if err != nil {
+			h.log.Error("Upload", err.Error())
 			return
 		}
 	} else {
@@ -118,10 +128,11 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (h Home) loadXlsData(fiName string) error {
+func getXlsData(fiName string) (map[string]string, error) {
+	keyval := map[string]string{}
 	xlFile, err := xlsx.OpenFile(fiName)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	sheet := xlFile.Sheets[0]
@@ -129,21 +140,17 @@ func (h Home) loadXlsData(fiName string) error {
 		key := row.Cells[0].String()
 		val := row.Cells[1].String()
 		if key != "" && val != "" {
-			/* saving value as key, and key as value
-			ie, "1" is key and "one" is value */
-			err = h.dbService.SaveKeyValue(val, key)
-			if err != nil {
-				h.log.Error("dbService", err.Error())
-			}
+			keyval[val] = key
 		}
 	}
-	return nil
+	return keyval, nil
 }
 
-func (h Home) loadCsvData(fiName string) error {
+func getCsvData(fiName string) (map[string]string, error) {
+	keyval := map[string]string{}
 	file, err := os.Open(fiName)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer file.Close()
 
@@ -155,7 +162,7 @@ func (h Home) loadCsvData(fiName string) error {
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			return err
+			return nil, err
 		}
 
 		if len(records) != 2 {
@@ -165,13 +172,22 @@ func (h Home) loadCsvData(fiName string) error {
 		key := records[0]
 		val := records[1]
 
+		if key == "key" {
+			continue
+		}
+
 		if key != "" && val != "" {
-			/* saving value as key, and key as value
-			ie, "1" is key and "one" is value */
-			err = h.dbService.SaveKeyValue(val, key)
-			if err != nil {
-				h.log.Error("dbService", err.Error())
-			}
+			keyval[val] = key
+		}
+	}
+	return keyval, nil
+}
+
+func saveCsvData(ds service.DBService, keyval map[string]string) error {
+	for key, val := range keyval {
+		err := ds.SaveKeyValue(key, val)
+		if err != nil {
+			return err
 		}
 	}
 	return nil
