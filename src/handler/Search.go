@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"bitbucket.org/firozmi/csv-read/src/conf"
@@ -47,6 +48,7 @@ func (s Search) SearchKey(w http.ResponseWriter, r *http.Request) {
 			s.log.Error("SearchKey", err.Error())
 			return
 		}
+		w.WriteHeader(http.StatusNotFound)
 	} else {
 		resp := &Resp{
 			Key: key,
@@ -58,9 +60,8 @@ func (s Search) SearchKey(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	s.dbService.Printall()
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(body)
+	fmt.Fprintf(w, "%s", body)
 
 	return
 }

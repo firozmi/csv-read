@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -19,6 +20,16 @@ type Home struct {
 	dbService service.DBService
 	conf      conf.Vars
 	log       log.Logger
+}
+
+type RespUp struct {
+	Upload string `json:"upload"`
+	Api    string `json:"api"`
+}
+
+type ErrorUp struct {
+	Upload string `json:"upload"`
+	Error  string `json:"error"`
 }
 
 type HomeVars struct{}
@@ -70,9 +81,35 @@ func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 			h.log.Error("loadCsvData", err.Error())
 			return
 		}
+	} else {
+		resp := &ErrorUp{
+			Upload: "failed",
+			Error:  "Incompatible format",
+		}
+		body, err := json.Marshal(resp)
+		if err != nil {
+			h.log.Error("Upload", err.Error())
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "%s", body)
+		return
 	}
 
-	fmt.Fprintf(w, "Api active now: http://localhost"+h.conf.Port+"/api/key")
+	resp := &RespUp{
+		Upload: "success",
+		Api:    "http://localhost" + h.conf.Port + "/api/key",
+	}
+	body, err := json.Marshal(resp)
+	if err != nil {
+		h.log.Error("Upload", err.Error())
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
 
 	return
 }
