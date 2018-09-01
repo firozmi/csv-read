@@ -38,13 +38,13 @@ func (s Search) SearchKey(w http.ResponseWriter, r *http.Request) {
 	var body []byte
 
 	if err != nil {
-		s.log.Error(err.Error())
+		s.log.Error("SearchKey", err.Error())
 		resp := &ErrorResp{
 			Error: "Unable to fetch value",
 		}
 		body, err = json.Marshal(resp)
 		if err != nil {
-			s.log.Error(err.Error())
+			s.log.Error("SearchKey", err.Error())
 			return
 		}
 	} else {
@@ -54,11 +54,11 @@ func (s Search) SearchKey(w http.ResponseWriter, r *http.Request) {
 		}
 		body, err = json.Marshal(resp)
 		if err != nil {
-			s.log.Error(err.Error())
+			s.log.Error("SearchKey", err.Error())
 			return
 		}
 	}
-
+	s.dbService.Printall()
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(body)
 

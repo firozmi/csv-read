@@ -32,7 +32,7 @@ func (s ServerStatus) GetServerStatus(w http.ResponseWriter, r *http.Request) {
 	//Marshalling Status
 	body, err := json.Marshal(serverOb)
 	if err != nil {
-		s.log.Error(err.Error())
+		s.log.Error("GetServerStatus", err.Error())
 		return
 	}
 	fmt.Fprintf(w, string(body))

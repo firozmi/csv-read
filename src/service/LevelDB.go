@@ -37,19 +37,17 @@ func (ds DBService) GetKeyValue(key string) (val string, err error) {
 		return "", err
 	}
 	val = string(value)
-	fmt.Println("value is " + val)
 	return val, err
 }
 
 func (ds DBService) Printall() {
-	fmt.Println("leveldb", "Printing all")
 	iter := ds.dbw.NewIterator(nil, nil)
 	for iter.Next() {
 		// Remember that the contents of the returned slice should not be modified, and
 		// only valid until the next call to Next.
 		key := iter.Key()
 		value := iter.Value()
-		fmt.Printf("\n key = %s, val = %s", key, value)
+		ds.log.Info("Printall", fmt.Sprintf("\n key = %s, val = %s", key, value))
 	}
 	iter.Release()
 }

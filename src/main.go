@@ -24,7 +24,7 @@ func main() {
 
 	dbService, err := service.NewDBService(*conf, errlog)
 	if err != nil {
-		errlog.Error("leveldb" + err.Error())
+		errlog.Error("leveldb", err.Error())
 		os.Exit(1)
 	}
 
