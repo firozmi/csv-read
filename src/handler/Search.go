@@ -11,18 +11,20 @@ import (
 	"goji.io/pat"
 )
 
-//Search
+//Search searches for key
 type Search struct {
 	dbService service.DBService
 	conf      conf.Vars
 	log       log.Logger
 }
 
+//Resp contains response
 type Resp struct {
 	Key string `json:"key"`
 	Val string `json:"value"`
 }
 
+//ErrorResp contains response
 type ErrorResp struct {
 	Error string `json:"error"`
 }

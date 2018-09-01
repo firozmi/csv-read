@@ -26,11 +26,13 @@ func NewDBService(conf conf.Vars, log log.Logger) (DBService, error) {
 	return DBService{dbw: db, log: log, conf: conf}, nil
 }
 
+//SaveKeyValue saves key value pair
 func (ds DBService) SaveKeyValue(key, val string) error {
 	err := ds.dbw.Put([]byte(key), []byte(val), nil)
 	return err
 }
 
+//GetKeyValue gets value from key
 func (ds DBService) GetKeyValue(key string) (val string, err error) {
 	value, err := ds.dbw.Get([]byte(key), nil)
 	if err != nil {
@@ -40,6 +42,7 @@ func (ds DBService) GetKeyValue(key string) (val string, err error) {
 	return val, err
 }
 
+//Printall prints all key value pairs in db
 func (ds DBService) Printall() {
 	iter := ds.dbw.NewIterator(nil, nil)
 	for iter.Next() {

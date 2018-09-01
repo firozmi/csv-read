@@ -15,18 +15,20 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-//Home
+//Home handles the uploading and loading of csv
 type Home struct {
 	dbService service.DBService
 	conf      conf.Vars
 	log       log.Logger
 }
 
+//RespUp contains response
 type RespUp struct {
 	Upload string `json:"upload"`
 	Api    string `json:"api"`
 }
 
+//ErrorUp contains error
 type ErrorUp struct {
 	Upload string `json:"upload"`
 	Error  string `json:"error"`
@@ -39,6 +41,7 @@ func NewHomeHandle(c conf.Vars, l log.Logger, ds service.DBService) Home {
 	return Home{dbService: ds, conf: c, log: l}
 }
 
+//GetHome shows homepage
 func (h Home) GetHome(w http.ResponseWriter, r *http.Request) {
 	HomeVars := HomeVars{}
 
@@ -52,6 +55,7 @@ func (h Home) GetHome(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Upload uploads & loads csv into goleveldb
 func (h Home) Upload(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20)
 	file, handler, err := r.FormFile("uploadfile")
